@@ -7,4 +7,5 @@ https://github.com/NMRLipids/DataBankManuscriptText/blob/main/SI.pdf
 A control using MacRog forcefields and OpenFF methods was run and compared to its existing simulation analysis in the NMRLipids Databank. MacRog was chosen for its similar nomenclature and atom ordering for ease of topology creation.
 
 MacRog POPC DOI: https://zenodo.org/record/3741793
+
 MacRog POPE DOI: https://zenodo.org/record/3725670
