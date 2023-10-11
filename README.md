@@ -1,6 +1,6 @@
 # OpenFF_Bilayer
 
-OpenFF pure POPC bilayer. 128 lipid system hydrated with 5000 TIP3P waters. Standard conditions: 1 Bar, 300 K, and no ions. Trajectory contains the 200 ns MD production simulation with data saved every 10 ps. POPC molecule was parametrized using the OpenFF Toolkit and Interchange conversion method. This simulation will be submitted to the NMRLipid Databank Respository and added to Table S6.
+OpenFF pure POPC and POPE bilayers. 128 lipid systems hydrated with 5000 TIP3P waters. Standard conditions: 1 Bar, 300 K, and no ions. Methods directories contain equilibration files as well as relevant trajectories and topologies used for analysis. Trajectories contain the 200 ns MD production simulations with data saved every 10 ps. Parameter directories contain parametrization of POPC and POPE molecules using the OpenFF Toolkit and Interchange conversion method. This simulation will be submitted to the NMRLipid Databank respository and references will be added to Table S6 of the manuscript:
 
 https://github.com/NMRLipids/DataBankManuscriptText/blob/main/SI.pdf
 
