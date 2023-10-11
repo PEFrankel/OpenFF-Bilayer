@@ -8,4 +8,5 @@ This simulation is expected to be ranked 22, although this is not guaranteed. Th
 
 
 A control using MacRog forcefields and OpenFF methods was run and compared to its existing simulation analysis in the NMRLipids Databank. MacRog was chosen for its similar nomenclature and atom order for ease of topology creation.
+
 MacRog POPC DOI: https://zenodo.org/record/3741793
