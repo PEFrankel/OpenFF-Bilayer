@@ -1,0 +1,39 @@
+integrator = md
+dt = 0.002
+nsteps = 30000000 ; 60000 ps / 60 ns
+
+continuation = no
+constraints = h-bonds
+constraint-algorithm = lincs
+
+cutoff-scheme = Verlet
+nstxout = 500000 		;(modified* from 0)
+nstvout = 500000 		;(modified* from 0)
+nstfout = 0
+nstxout-compressed = 5000 ; 10 ps 
+
+nstcomm = 100
+comm_mode = linear
+;comm_grps = POPC TIP3P
+
+nstlist = 40
+vdwtype = Cut-off
+coulombtype = PME
+rcoulomb = 0.9       ; short-range electrostatic cutoff (in nm) 0.9 nm for OPENFF
+rvdw = 0.9       ; short-range van der Waals cutoff (in nm) 0.9 nm for OPENFF
+
+Tcoupl = v-rescale
+tc-grps = POPC TIP3P
+tau-t = 0.1	0.1
+ref-t = 300.0	300.0
+
+Pcoupl = c-rescale
+Pcoupltype = semiisotropic
+tau-p = 4 			;(modified* from 1)
+ref-p = 1 1
+compressibility = 4.5e-5 4.5e-5
+
+gen-vel = yes
+gen-temp = 300.0
+pbc = xyz
+DispCorr = EnerPres
