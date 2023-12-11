@@ -1,0 +1,42 @@
+                       :-) GROMACS - gmx mdrun, 2022 (-:
+
+Executable:   /projects/dora1300/pkgs/gromacs-2022-cpu-mpi/bin/gmx_mpi
+Data prefix:  /projects/dora1300/pkgs/gromacs-2022-cpu-mpi
+Working dir:  /projects/pafr7911/POPC
+Command line:
+  gmx_mpi mdrun -deffnm md -cpi md.cpt
+
+Reading file md.tpr, VERSION 2022 (single precision)
+Can not increase nstlist because verlet-buffer-tolerance is not set or used
+Using 64 MPI processes
+Using 1 OpenMP thread per MPI process
+
+starting mdrun 'Title'
+100000000 steps, 200000.0 ps (continuing from step 68580760, 137161.5 ps).
+
+Writing final coordinates.
+
+
+Dynamic load balancing report:
+ DLB was turned on during the run due to measured imbalance.
+ Average load imbalance: 3.5%.
+ The balanceable part of the MD step is 65%, load imbalance is computed from this.
+ Part of the total run time spent waiting due to load imbalance: 2.3%.
+ Steps where the load balancing was limited by -rdd, -rcon and/or -dds: X 0 % Y 0 % Z 0 %
+ Average PME mesh/force load: 1.329
+ Part of the total run time spent waiting due to PP/PME imbalance: 12.7 %
+
+NOTE: 12.7 % performance was lost because the PME ranks
+      had more work to do than the PP ranks.
+      You might want to increase the number of PME ranks
+      or increase the cut-off and the grid spacing.
+
+
+               Core t (s)   Wall t (s)        (%)
+       Time:  2381642.110    37213.178     6400.0
+                         10h20:13
+                 (ns/day)    (hour/ns)
+Performance:      145.896        0.165
+
+GROMACS reminds you: "We mathematicians are all a bit crazy." (Lev Landau)
+
