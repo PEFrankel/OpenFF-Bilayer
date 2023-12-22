@@ -1,0 +1,80 @@
+#
+# Lipid double layer with water over and below
+#
+
+# Every atom from different molecules will be far from each other at
+# least 2.0 Angstroms at the solution.
+
+tolerance 2.0 
+filetype pdb
+
+output bilayer.pdb
+
+# Water molecules below the lipids
+
+structure water.pdb 
+  number 4240
+  inside box 0. 0. -50. 70. 70. 0.
+end structure
+
+# Water molecules over the lipids
+  
+structure water.pdb
+  number 4240
+  inside box 0. 0. 40. 70. 70. 90.
+end structure
+
+# POPC
+# First layer
+
+structure POPC.pdb 
+  number 55
+  inside box 0. 0. 0. 70. 70. 22.
+  atoms 5
+    below plane 0. 0. 1. 2.
+  end atoms
+  atoms 131
+    over plane 0. 0. 1. 20.
+  end atoms
+end structure 
+
+# Second lipid layer: the polar head points up to the water molecules. 
+# The same thing as the input above, but defining a new lipid layer,
+# with the opposite orientation of the lipid molecules in such a way that
+# the polar head points to the water box that is over the lipid bilayer.
+  
+structure POPC.pdb 
+  number 55
+  inside box 0. 0. 24. 70. 70. 46.
+  atoms 131
+    below plane 0. 0. 1. 26.
+  end atoms
+  atoms 5
+    over plane 0. 0. 1. 44.
+  end atoms
+end structure
+
+# Cholesterol
+# First layer (bottom)
+
+structure CHOL.pdb 
+  number 9
+  inside box 0. 0. 0. 70. 70. 20.
+  atoms 2
+    below plane 0. 0. 1. 0.
+  end atoms
+end structure 
+
+# Second chol layer: the polar head points up to the water molecules. 
+  
+structure CHOL.pdb 
+  number 9
+  inside box 0. 0. 20. 70. 70. 40.
+  atoms 2
+    below plane 0. 0. 1. 40.
+  end atoms
+  atoms 65
+    over plane 0. 0. 1. 20.
+  end atoms
+end structure
+
