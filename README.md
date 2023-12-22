@@ -25,6 +25,7 @@ OpenFF pure and compositional bilayers.
   - Trajectories contain the 200 ns MD production simulations with data saved every 10 ps.
   - Lipid directories contain equilibration and production MD files.
   - Directories also contain parametrization of lipid molecules using the OpenFF Toolkit and Interchange conversion method. Residue names were changed to assemble the final topology.
+  - The Methods directory contains commands used for running the simulations in GROMACS as well as a script for building the 15% cholesterol bilayer.
 
   - The PDB for POPS was sourced from: http://www.fos.su.se/~sasha/SLipids/Downloads.html. This was then converted to an SDF for use in the OpenFF Toolkit using OpenBabel.
   - All initial bilayer gro files except for 15% cholesterol were adopted from simulations submitted to the NMRLipids Databank and reformatted for naming continuity.
