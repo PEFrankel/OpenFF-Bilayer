@@ -3,17 +3,22 @@
 OpenFF pure and compositional bilayers.
   Lipid types with DOIs containing trajectories and topologies used for analysis:
   1. POPC (https://zenodo.org/records/10265709)
+
     - TIP3P waters
   2. POPE (https://zenodo.org/records/10265965)
+
     - 310K
     - TIP3P waters
   3. POPS (https://zenodo.org/records/10266049)
+
     - Na+ counterions
     - SPC/E waters
   4. POPC/Cholesterol (https://zenodo.org/records/10344232)
+
     - 20% chol
     - SPC/E waters
   5. POPC/Cholesterol (https://zenodo.org/records/10366462)
+
     - 15% chol
     - SPC/E waters
 
@@ -22,7 +27,7 @@ OpenFF pure and compositional bilayers.
   - Directories also contain parametrization of lipid molecules using the OpenFF Toolkit and Interchange conversion method. Residue names were changed to assemble the final topology.
 
   - The PDB for POPS was sourced from: http://www.fos.su.se/~sasha/SLipids/Downloads.html. This was then converted to an SDF for use in the OpenFF Toolkit using OpenBabel.
-  - All initial bilayer gro files except for 15% cholesterol were adopted from simulations submitted to the NMRlipids Databank and reformatted for naming continuity.
+  - All initial bilayer gro files except for 15% cholesterol were adopted from simulations submitted to the NMRLipids Databank and reformatted for naming continuity.
   - Bilayers were equilibrated for 100 ns.
   - Systems were determined to be equilibrated by the plateau of instantaneous temperature, pressure, density, and potential energy.
   - Further analysis of equilibration using PCA is currently being worked on.
