@@ -31,6 +31,7 @@ OpenFF pure and compositional bilayers.
   - All initial bilayer gro files except for 15% cholesterol were adopted from simulations submitted to the NMRLipids Databank and reformatted for naming continuity.
   - Bilayers were equilibrated for 100 ns.
   - Systems were determined to be equilibrated by the plateau of instantaneous temperature, pressure, density, and potential energy.
+  - Analysis including order parameter and form factor plots are credited to the NMRlipid Databank at https://github.com/NMRLipids/Databank.git
   - Further analysis of equilibration using PCA is currently being worked on.
 
 A control using MacRog forcefields and OpenFF methods was run and compared to its existing simulation analysis in the NMRLipids Databank. MacRog was chosen for its similar nomenclature and atom ordering for ease of topology creation.
