@@ -1,0 +1,77 @@
+DOI: 10.5281/zenodo.8369348
+SOFTWARE: NAMD
+TRJ:
+- - PM-like.dcd
+PDB:
+- - PM-like.pdb
+PREEQTIME: 0
+TIMELEFTOUT: 0
+TEMPERATURE: 310
+DIR_WRK: /home/sosamuli/temp/DataBank/
+PUBLICATION: null
+AUTHORS_CONTACT: Reza Talandashti and Nathalie Reuter
+SYSTEM: (innerleaflet,76CHOL,30POPC,52POPE,26POPS,6SAPI24)(outerleaflet,76CHOL,52POPC,6POPE,2POPS,57PSM),13495SOL,52SOD
+SOFTWARE_VERSION: 2.14
+FF: CHARMM36m
+FF_SOURCE: CHARMM-GUI
+FF_DATE: 26/01/2021
+COMPOSITION:
+  POPC:
+    NAME: POPC
+    MAPPING: mappingPOPCcharmm.yaml
+    COUNT:
+    - 52
+    - 30
+  POPE:
+    NAME: POPE
+    MAPPING: mappingPOPEcharmm.yaml
+    COUNT:
+    - 6
+    - 52
+  POPS:
+    NAME: POPS
+    MAPPING: mappingPOPScharmm.yaml
+    COUNT:
+    - 2
+    - 26
+  SAPI24:
+    NAME: SAPI
+    MAPPING: mappingSAPI24charmm.yaml
+    COUNT:
+    - 0
+    - 6
+  SM16:
+    NAME: PSM
+    MAPPING: mappingSM16charmm.yaml
+    COUNT:
+    - 57
+    - 2
+  CHOL:
+    NAME: CHL1
+    MAPPING: mappingCHOLESTEROLcharmm.yaml
+    COUNT:
+    - 76
+    - 76
+  SOL:
+    NAME: TIP3
+    MAPPING: mappingTIP3PCHARMMgui.yaml
+    COUNT: 13495
+  SOD:
+    NAME: SOD
+    MAPPING: mappingSOD.yaml
+    COUNT: 52
+TRAJECTORY_SIZE: 1967488276
+TRJLENGTH: 200000.00059628114
+NUMBER_OF_ATOMS: 81972
+DATEOFRUNNING: 27/09/2023
+TYPEOFSYSTEM: lipid bilayer
+ID: 774
+EXPERIMENT:
+  ORDERPARAMETER:
+    POPC: {}
+    POPE: {}
+    POPS: {}
+    SAPI24: {}
+    SM16: {}
+    CHOL: {}
+  FORMFACTOR: {}

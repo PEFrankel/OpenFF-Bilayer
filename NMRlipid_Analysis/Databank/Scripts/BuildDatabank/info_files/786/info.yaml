@@ -1,0 +1,29 @@
+DOI: 10.5281/zenodo.10265965
+
+SOFTWARE: gromacs
+TRJ: md.xtc
+TPR: md.tpr
+PREEQTIME: 0
+TIMELEFTOUT: 50
+TEMPERATURE: 300
+
+COMPOSITION:
+ POPE:
+  NAME: POPE
+  MAPPING: mappingPOPEsage.yaml
+ SOL:
+  NAME: TIP3P
+  MAPPING: mappingTIP3PwaterSage.yaml
+
+DIR_WRK: /Users/patrickfrankel/Desktop/lipid_database/Databank/
+
+PUBLICATION:
+AUTHORS_CONTACT: Patrick Frankel
+
+SYSTEM: POPE_128_OPENFF_310K
+
+FF: OpenFF
+FF_SOURCE: openff-2.1.0.offxml from OpenFF Sage
+FF_DATE: 
+
+TOP: topol.top
