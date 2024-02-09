@@ -37,8 +37,8 @@ ref-t = 300.0
 Pcoupl = c-rescale
 Pcoupltype = semiisotropic
 tau-p = 10 			;(modified* from 4)
-ref-p = 1
-compressibility = 4.5e-5
+ref-p = 1 1
+compressibility = 4.5e-5 4.5e-5
 
 gen-vel = yes
 gen-temp = 300.0

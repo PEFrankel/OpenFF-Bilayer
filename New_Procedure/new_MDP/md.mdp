@@ -45,14 +45,14 @@ tc-grps                 = system    ;
 tau_t                   = 1.0       ; time constant, in ps
 ref_t                   = 300       ; reference temperature in K
 ; Pressure coupling is on
-pcoupl                  = c-rescale     ; Pressure coupling on in NPT
-pcoupltype              = semiisotropic             ; uniform scaling of box vectors
-tau_p                   = 10.0                   ; time constant, in ps
-ref_p                   = 1.0                ; reference pressure, in bar
-compressibility         = 4.5e-5             ; isothermal compressibility of water, bar^-1
+pcoupl                  = c-rescale          ; Pressure coupling on in NPT
+pcoupltype              = semiisotropic      ; uniform scaling of box vectors
+tau_p                   = 10.0               ; time constant, in ps
+ref_p                   = 1.0 1.0            ; reference pressure, in bar
+compressibility         = 4.5e-5 4.5e-5      ; isothermal compressibility of water, bar^-1
 ; Periodic boundary conditions
 pbc                     = xyz       ; 3-D PBC
 ; Dispersion correction
 DispCorr                = EnerPres  ; account for cut-off vdW scheme
 ; Velocity generation
-gen_vel                 = yes        ; Velocity generation is on
+gen_vel                 = yes       ; Velocity generation is on
