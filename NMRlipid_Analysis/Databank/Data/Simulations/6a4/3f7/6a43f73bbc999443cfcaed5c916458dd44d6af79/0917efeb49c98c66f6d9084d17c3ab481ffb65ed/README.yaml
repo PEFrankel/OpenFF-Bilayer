@@ -1,0 +1,40 @@
+DOI: 10.5281/zenodo.10732986
+SOFTWARE: gromacs
+TRJ:
+- - md.xtc
+TPR:
+- - md.tpr
+PREEQTIME: 0
+TIMELEFTOUT: 50
+TEMPERATURE: 300.0
+COMPOSITION:
+  POPC:
+    NAME: POPC
+    MAPPING: mappingPOPCsage.yaml
+    COUNT:
+    - 64
+    - 64
+  SOL:
+    NAME: TIP3P
+    MAPPING: mappingTIP3PwaterSage.yaml
+    COUNT: 5120
+DIR_WRK: /Users/patrickfrankel/Documents/GitHub/OpenFF_Bilayer/NMRlipid_Analysis/Databank/
+PUBLICATION: null
+AUTHORS_CONTACT: Patrick Frankel
+SYSTEM: POPC_128_OPENFF_300K
+FF: OpenFF
+FF_SOURCE: openff-2.1.0.offxml from OpenFF Sage
+FF_DATE: null
+TOP:
+- - topol.top
+TRAJECTORY_SIZE: 2449179660
+TRJLENGTH: 200010.0
+NUMBER_OF_ATOMS: 32512
+DATEOFRUNNING: 01/03/2024
+TYPEOFSYSTEM: lipid bilayer
+ID: 797
+EXPERIMENT:
+  ORDERPARAMETER:
+    POPC:
+      10.1039/c2cp42738a: 10.1039/c2cp42738a/1
+  FORMFACTOR: unpublished/NMRlipidsIII/1

@@ -1431,7 +1431,7 @@ def plotSimulation(ID, ID2, lipid, SIM2, Experimental):
         with open(FFpathSIM2) as json_file:
             FFsim2 = json.load(json_file)
         plotFormFactor(FFsim,1, 'OpenFF','red')
-        plotFormFactor(FFsim2,1, 'CHARMM36','blue')
+        plotFormFactor(FFsim2,1, 'MacRog','blue')
         if (Experimental == True):
             plotFormFactor(FFexp,FFq[1], 'Experiment','black')
         plt.show()
