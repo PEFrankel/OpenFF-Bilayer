@@ -2,16 +2,15 @@ title                   = OpenFF Sage Production MD for Bilayers
 ; Run parameters
 integrator              = sd        ; 
 nsteps                  = 100000000 ; 0.002 * 100000000 = 200000 ps (200 ns)
-dt                      = 0.002     ; 2 fs
+dt                      = 0.004     ; 4 fs allowed by HMR
 ; Output control
 nstxout                 = 500000
 nstvout                 = 500000
 nstfout                 = 0
 nstenergy               = 500      
 nstlog                  = 500
-nstxtcout               = 5000
 xtc_precision           = 1000
-;nstxout-compressed      = 2500      ; save compressed coordinates every 5.0 ps
+nstxout-compressed      = 50000      ; save compressed coordinates every 100.0 ps (2000 frames)
 ;compressed-x-grps       = System    ; save the whole system
 ;
 nstcomm                 = 100

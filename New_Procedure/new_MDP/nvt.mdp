@@ -1,5 +1,5 @@
 integrator = md
-dt = 0.002
+dt = 0.004 ; 4 fs allowed by HMR
 nsteps = 20000000 ; 40000 ps / 40 ns
 
 continuation = no
@@ -10,7 +10,7 @@ cutoff-scheme = Verlet
 nstxout = 500000 		;(modified* from 0)
 nstvout = 500000 		;(modified* from 0)
 nstfout = 0
-;nstxout-compressed = 5000 ; 10 ps
+nstxout-compressed = 50000      ; save compressed coordinates every 100.0 ps (400 frames)
 
 nstcomm = 100
 comm_mode = linear
