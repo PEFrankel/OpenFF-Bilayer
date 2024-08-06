@@ -60,17 +60,15 @@ def get_attachment_point(mol, substructure_smiles):
 def combine_molecules(tail_mol, steroid_mol, tail_attach_idx, steroid_attach_idx):
 
     combined_mol = Chem.RWMol(Chem.CombineMols(tail_mol, steroid_mol))
-    
-    # Adjust indices to account for the combination
     steroid_attach_idx += tail_mol.GetNumAtoms()
     
-    # Add a bond between the specified attachment points
+    # need to add a carbon/bond at attachment for just this cort/chol connection
     combined_mol.AddBond(tail_attach_idx, steroid_attach_idx, Chem.BondType.SINGLE)
     
-    # Remove the hydrogen atom at the attachment point of the steroid
+    # need to remove hydrogen for just this case again
     atom = combined_mol.GetAtomWithIdx(steroid_attach_idx)
     for neighbor in atom.GetNeighbors():
-        if neighbor.GetAtomicNum() == 1:  # Remove hydrogen atoms only
+        if neighbor.GetAtomicNum() == 1:  # remove hydrogen atoms only
             combined_mol.RemoveAtom(neighbor.GetIdx())
             break
     
@@ -79,7 +77,7 @@ def combine_molecules(tail_mol, steroid_mol, tail_attach_idx, steroid_attach_idx
     return new_mol
 
 def validate_smiles(smiles):
-    """Validate the SMILES string."""
+
     mol = Chem.MolFromSmiles(smiles)
     if mol is None:
         print(f"Invalid SMILES string: {smiles}")
