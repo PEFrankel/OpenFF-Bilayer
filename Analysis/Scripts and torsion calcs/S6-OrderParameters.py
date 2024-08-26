@@ -103,7 +103,7 @@ def find_neighbors(i, positions, cutoff=0.65): # BROADCASTING OPTIMIZATION (get 
     return neighbor_indices
 
 
-# calculate the hexagonal order parameter (S6) for a given index
+# calculate S6 for a given index
 def calculate_S6_for_index(i, positions, cutoff=0.65):
     neighbors = find_neighbors(i, positions, cutoff)
     
@@ -131,7 +131,7 @@ def calculate_S6_for_index(i, positions, cutoff=0.65):
         S6 = (1/6) * np.sqrt((np.sum(np.cos(6 * angle)))**2 + (np.sum(np.sin(6 * angle)))**2)
         S6_values.append(S6)
         # print(f"Index {i}, Neighbor {neighbor}: S6: {S6}")
-    # Average the S6 values for all neighbors
+    # average the S6 values for all neighbors
     average_S6 = np.mean(S6_values)
 
     ######################################################################################
