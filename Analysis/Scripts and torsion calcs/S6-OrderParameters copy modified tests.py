@@ -6,10 +6,8 @@ from multiprocessing import Pool, cpu_count
 from tqdm import tqdm
 import time
 
-# Load trajectory and topology
 trajectory = md.load('OpenFF_half_mol.xtc', top='OpenFF.gro')
 
-# Define acyl chain patterns
 acyl_chain_patterns = [
     ['C8x', 'C9x', 'C10x', 'C11x', 'C12x', 'C13x', 'C14x', 'C15x', 'C16x', 'C17x', 'C18x', 'C19x', 'C20x', 'C21x', 'C22x', 'C23x', 'C24x', 'C25x'],
     ['C27x', 'C28x', 'C29x', 'C30x', 'C31x', 'C32x', 'C33x', 'C34x', 'C35x', 'C36x', 'C37x', 'C38x', 'C39x', 'C40x', 'C41x', 'C42x']
@@ -78,7 +76,7 @@ def calculate_S6_across_frames(positions, chains, cutoff=0.65):
     print(f"Number of frames in trajectory: {num_frames}")
     all_S6_results = []
 
-    # Use multiprocessing to process frames in parallel
+    # multiprocessing
     with Pool(cpu_count()) as pool:
         results = []
         for frame_idx in range(num_frames):
@@ -104,8 +102,6 @@ if __name__ == '__main__':
     print(f"Loaded {positions.shape[0]} frames from trajectory.")
     
     frame_averages = compute_frame_averages(positions, acyl_chains)
-
-    # Split data for multiprocessing
     print("Starting S6 calculations...")
     S6_results = calculate_S6_across_frames(positions, acyl_chains)
     print("S6 calculations completed.")
