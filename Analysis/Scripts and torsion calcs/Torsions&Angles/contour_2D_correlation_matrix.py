@@ -16,7 +16,6 @@ def read_xvg(file):
 def create_custom_matrix(torsions, forcefield, suffix, save_filename=None):
     data_frames = {}
     
-    # Read XVG files
     for torsion in torsions:
         file = f"{torsion}{suffix}.xvg"
         df = read_xvg(file)
@@ -24,77 +23,61 @@ def create_custom_matrix(torsions, forcefield, suffix, save_filename=None):
     
     df = pd.DataFrame(data_frames)
     
-    # Create correlation matrix
     correlation_matrix = df.corr(method='pearson')
-    
     fig, axes = plt.subplots(len(torsions), len(torsions), figsize=(8, 8), constrained_layout=True)
     
     for i, torsion_i in enumerate(torsions):
         for j, torsion_j in enumerate(torsions):
             ax = axes[i, j]
-            
             if i > j:
-                # Scatter plot for bottom-left triangle
-                ax.scatter(df[torsion_j], df[torsion_i], alpha=0.6, s=4, color='#0333b0')  # Customize scatter plot color
+                # scatter plot for bottom-left triangle
+                ax.scatter(df[torsion_j], df[torsion_i], alpha=0.6, s=4, color='#0333b0')
                 if j == 0:
                     ax.set_ylabel(torsion_i, fontsize=6)
                 if i == len(torsions) - 1:
                     ax.set_xlabel(torsion_j, fontsize=6)
             elif i == j:
-                # Probability distribution plot on diagonal
+                # probability distribution plot on diagonal
                 angles = np.linspace(-180, 180, len(df[torsion_i]))
-                ax.plot(angles, df[torsion_i], linewidth=0.4, color='#0333b0')  # Customize line plot color
+                ax.plot(angles, df[torsion_i], linewidth=0.4, color='#0333b0')
                 ax.set_xticks([-180, 0, 180])
                 ax.set_xlim([-180, 180])
                 ax.set_title(torsion_i, fontsize=8, pad=10)
             else:
-                # Correlation value on upper-right triangle
+                # correlation value on upper-right triangle
                 correlation_value = correlation_matrix.loc[torsion_i, torsion_j]
-                
-                # Set color based on correlation value
-                if correlation_value == 0:
-                    color = 'lightgrey'  # Grey for zero correlation
+                if correlation_value == 0:    # color gradient if
+                    color = 'lightgrey'
                 else:
-                    color = plt.cm.bwr((correlation_value + 1) / 2)  # Red to Blue gradient for other values
+                    color = plt.cm.bwr((correlation_value + 1) / 2)  # r to b gradient for other values
                 
-                # Fill the box with the scaling color
                 ax.patch.set_facecolor(color)
                 ax.text(0.5, 0.5, f"{correlation_value:.2f}",
                         horizontalalignment='center', verticalalignment='center',
-                        fontsize=8 + abs(correlation_value) * 8,  # Scale font size based on correlation value
-                        color='black')  # Black text for better contrast
+                        fontsize=8 + abs(correlation_value) * 8,  # change font size depnding on value
+                        color='black')
                 
-                # Remove ticks and labels
                 ax.set_xticks([])
                 ax.set_yticks([])
-            
-            # Adjust tick label size
             ax.tick_params(axis='both', which='major', labelsize=4)
             ax.tick_params(axis='both', which='minor', labelsize=4)
-    
-    # Create a colorbar for correlation values
-    cax = fig.add_axes([0.95, 0.2, 0.02, 0.6])  #left, bottom, width, height
+    cax = fig.add_axes([0.95, 0.2, 0.02, 0.6])  #left, bottom, width, height + colorbar
     cmap = plt.cm.bwr
     norm = plt.Normalize(-1, 1)
     cb = plt.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), cax=cax)
     cb.set_label('Correlation', fontsize=10)
     cb.ax.tick_params(labelsize=8)
     
-    plt.subplots_adjust(wspace=0.0, hspace=0, right=0.7)
-  # Adjust top and right margin
-    
+    plt.subplots_adjust(wspace=0.0, hspace=0, right=0.7) # trying to adjust margins but not guaranteed to work
     plt.suptitle(f"{forcefield} Force Field", fontsize=12)
     
-    # Save the figure if save_filename is provided
     if save_filename:
-        plt.savefig(save_filename, dpi=300)
-    
+        plt.savefig(save_filename, dpi=300)    # only save if given filename
     plt.show()
 
-# Define torsions and call the function
 torsions = ['P1_O4_C3_C4','P1_O4_C3_H5','P1_O4_C3_H4','C2_O1_P1_O4','C2_O1_P1_O3','C2_O1_P1_O2','P1_O1_C2_H2','P1_O1_C2_H3','C1_C2_O1_P1']
 forcefield = 'Open'
 suffix = '_OFF'
-save_filename = 'custom_matrix.png'  # Specify the filename to save the image
+save_filename = 'custom_matrix.png'
 
 create_custom_matrix(torsions, forcefield, suffix, save_filename)
