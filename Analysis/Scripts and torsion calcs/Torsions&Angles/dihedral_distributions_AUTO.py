@@ -23,11 +23,11 @@ for name, atoms in torsions.items():
     fname = os.path.join('index_files', name + ".ndx")
     label = "[ " + name + " ]"
 
-    with open(fname, "w") as pfile:
+    with open(fname, "w") as pfile:     # build torsion index files
         print(label, file=pfile)
         for n in range(nlip):
             print(f"{atoms[0] + offset * n:4d} {atoms[1] + offset * n:4d} {atoms[2] + offset * n:4d} {atoms[3] + offset * n:4d}", file=pfile)
 
     xvg_name = f"xvg_files/{name}_OFF_auto.xvg"
-    gmx_command = f"gmx angle -f md.xtc -n {fname} -od {xvg_name} -type dihedral"
+    gmx_command = f"gmx angle -f md.xtc -n {fname} -od {xvg_name} -type dihedral"     # get distributions for every torsion ndx
     os.system(gmx_command)
