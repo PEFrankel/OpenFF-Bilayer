@@ -34,6 +34,17 @@ OpenFF pure and compositional bilayers.
   - Analysis including order parameter and form factor plots are credited to the NMRlipid Databank at https://github.com/NMRLipids/Databank.git
   - Further analysis of equilibration using PCA is currently being worked on.
 
+Lipids: POPC/CHOL
+Lipid count: 108 POPC (54 per leaflet) / 20 CHOL (10 per leaflet)
+Solvent: TIP3P
+Solvent count: 5120
+&nbsp
+: Ions: no
+: Ion Count: n/a
+: Temperature: 300K
+Length of equilibration: 100ns (40 NVT - 60 NPT)
+Length of production: 500ns
+
 A control using MacRog forcefields and OpenFF methods was run and compared to its existing simulation analysis in the NMRLipids Databank. MacRog was chosen for its similar nomenclature and atom ordering for ease of topology creation.
 
 MacRog POPC DOI: https://zenodo.org/record/3741793
