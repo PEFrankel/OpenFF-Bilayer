@@ -1,7 +1,9 @@
-# OpenFF Lipid Validation
+# OpenFF-Bilayer
 
-Pure and compositional bilayers.
-  Lipid types with DOIs containing production simulations used for analysis.
+<img width="573" alt="Screenshot 2025-02-26 at 1 31 51 AM" src="https://github.com/user-attachments/assets/afcdc198-a11c-45e1-b87b-d201ccfba8c2" />
+
+This repository is dedicated to pure and compositional bilayers for the validation of OpenFF parameters in lipid molecules and bilayer systems.</br>
+  * Lipid types with DOIs containing production simulations used for analysis.
   1. POPC
      - [2.2.0](10.5281/zenodo.14714284)
      - [Aux](https://zenodo.org/records/14713793)
