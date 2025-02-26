@@ -1,4 +1,4 @@
-# OpenFF Lipid Validation \temp\
+# OpenFF Lipid Validation
 
 Pure and compositional bilayers.
   Lipid types with DOIs containing production simulations used for analysis.
@@ -35,6 +35,7 @@ Pure and compositional bilayers.
 ## To-dos
 * Add cutoff and water tests.
 * Add control descriptions.
+* Add Lipid21 systems and CHARMM36 references.
 * Zenodo DOIs will contain additional info on OpenFF-specific mods (e.g. cutoff) since that is where it is relevant.
 * Add mapping files + NMR ref
 * Add a pic
