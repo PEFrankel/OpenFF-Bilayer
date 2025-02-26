@@ -1,0 +1,46 @@
+integrator = sd
+dt = 0.004 ; 4 fs allowed by HMR
+nsteps = 15000000 ; 60000 ps / 60 ns
+
+continuation = no
+constraints = h-bonds
+constraint-algorithm = lincs
+
+cutoff-scheme = Verlet
+nstxout = 500000
+nstvout = 500000
+nstfout = 0
+nstxout-compressed = 50000      ; save compressed coordinates every 100.0 ps (600 frames)
+
+nstcomm = 100
+comm_mode = linear
+
+nstlist = 40
+vdwtype = Cut-off
+coulombtype = PME
+coulomb-modifier        = Potential-shift-Verlet
+vdw-modifier            = potential-switch
+ewald-rtol              = 1e-05
+pme_order               = 4         ; cubic interpolation
+fourierspacing          = 0.12      ; grid spacing for FFT
+; Cut-offs
+rvdw-switch             = 0.8	    ; OPENFF
+rcoulomb                = 0.9       ; short-range electrostatic cutoff (in nm) 0.9 nm for OPENFF
+rcoulomb-switch         = 0
+rvdw                    = 0.9       ; short-range van der Waals cutoff (in nm) 0.9 nm for OPENFF
+
+Tcoupl = v-rescale
+tc-grps = system
+tau-t = 0.1
+ref-t = 314.0
+
+Pcoupl = c-rescale
+Pcoupltype = semiisotropic
+tau-p = 10 			;(modified* from 4)
+ref-p = 1 1
+compressibility = 4.5e-5 4.5e-5
+
+gen-vel = yes
+gen-temp = 314.0
+pbc = xyz
+DispCorr = EnerPres
