@@ -55,7 +55,7 @@ def run_dihedral_analysis(args):
 def run_angle_analysis(args):
     cmd = [sys.executable, "angle_distributions.py"]
     
-    # Create environment variables to pass to the script
+    # environment variables
     env = os.environ.copy()
     if args.xtc:
         env["TRAJECTORY_FILE"] = args.xtc
@@ -78,7 +78,7 @@ def run_apl_analysis(args):
         sys.exit(1)
     cmd.extend(["--xtc", args.xtc])
     
-    # Either standard resname or lipid21 resnames must be provided
+    # Either standard resname or lipid21 resnames are necessary
     if not (args.resname or args.lipid21_resnames):
         print("Error: Either --resname or --lipid21-resnames must be provided for APL analysis")
         sys.exit(1)
@@ -98,7 +98,7 @@ def run_apl_analysis(args):
 def run_rdf_analysis(args):
     cmd = [sys.executable, "RDF_multiprocess_PO-NC_IDexclusion.py"]
     
-    # Create environment variables to pass to the script
+    # environment variables
     env = os.environ.copy()
     if args.xtc:
         env["XTC_FILE"] = args.xtc
@@ -110,7 +110,7 @@ def run_rdf_analysis(args):
 def run_isomerization_analysis(args):
     cmd = [sys.executable, "isomerization_code_PointGraph.py"]
     
-    # Create environment variables to pass to the script
+    # environment variables
     env = os.environ.copy()
     
     subprocess.run(cmd, env=env)
