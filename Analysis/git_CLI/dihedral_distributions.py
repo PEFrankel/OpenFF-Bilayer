@@ -23,9 +23,7 @@ def main():
     process_torsions(torsions, args.nlip, args.offset, args.idx_dir, args.out_dir, args.xtc)
 
 def get_torsions(torsion_set):
-    """Get the appropriate torsion definitions based on the selected set"""
     
-    # Phosphate torsions and other structural elements
     phosphate_torsions = {
         'P1_O1_C2_H2': [15364, 15363, 15362, 15414], # Phosphate Torsions
         'P1_O4_C3_H4': [15364, 15367, 15368, 15416],
@@ -84,7 +82,6 @@ def get_torsions(torsion_set):
         sys.exit(1)
 
 def process_torsions(torsions, nlip, offset, idx_dir, out_dir, xtc_file):
-    """Process each torsion by creating index files and running gmx angle"""
     print(f"Processing {len(torsions)} dihedral angles with {nlip} lipids (offset: {offset})")
     
     for name, atoms in torsions.items():
