@@ -28,6 +28,8 @@ def parse_args():
     parser.add_argument("--phosphate-name", default="PO", help="Name for phosphate group in index file")
     parser.add_argument("--amine-name", default="NC", help="Name for amine group in index file")
     parser.add_argument("--ndx-group-offset", type=int, default=4, help="Starting group number in index file")
+    parser.add_argument("--index-dir", default="index_files", help="Directory for index files")
+    parser.add_argument("--xvg-dir", default="xvg_files", help="Directory for XVG files")
     return parser.parse_args()
 
 def process_residue(args):
@@ -86,8 +88,8 @@ def main():
         sys.exit(1)
     
     # Create directories for output
-    index_folder = 'index_files'
-    xvg_folder = 'xvg_files'
+    index_folder = args.index_dir
+    xvg_folder = args.xvg_dir
     os.makedirs(index_folder, exist_ok=True)
     os.makedirs(xvg_folder, exist_ok=True)
     

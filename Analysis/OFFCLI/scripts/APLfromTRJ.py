@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import numpy as np
 import matplotlib.pyplot as plt
 import MDAnalysis as mda
@@ -26,10 +25,10 @@ def calculate_area_per_lipid(universe, lipid_resnames, standard_resname):
 
     return apl, n_lipids
 
-def plot_area_per_lipid(topology_file, trajectory_file, lipid21_resnames, standard_resname, title, color, max_time=None):
+def plot_area_per_lipid(trajectory_file, structure_file, lipid21_resnames, standard_resname, title, color, max_time=None, output_prefix=None):
     plt.figure(figsize=(10, 6))
 
-    u = mda.Universe(topology_file, trajectory_file)
+    u = mda.Universe(structure_file, trajectory_file)
     
     apl_data, n_lipids = calculate_area_per_lipid(u, lipid21_resnames, standard_resname)
     times = np.array(list(apl_data.keys()))
@@ -77,8 +76,13 @@ def plot_area_per_lipid(topology_file, trajectory_file, lipid21_resnames, standa
     plt.ylim([45, 75])
     plt.legend()
     
-    # Save results
-    output_filename = f"{title.replace(' ', '_')}_APL"
+    # Set output filename with prefix if provided
+    if output_prefix:
+        output_filename = f"{output_prefix}"
+    else:
+        output_filename = f"{title.replace(' ', '_')}_APL"
+    
+    # Save figure
     plt.savefig(f"{output_filename}.png", dpi=300)
     
     # Data saves to text file if interested
@@ -121,6 +125,7 @@ def main():
                         help="Maximum time (ps) to include in analysis (default: 1000000)")
     parser.add_argument("--color", default="openff", choices=list(color_choices.keys()),
                         help="Color to use for plotting. Options include force field identifiers (openff, slipids, lipid21, macrog, charmm36, core, aux) or basic colors.")
+    parser.add_argument("--output", default=None, help="Output file prefix (without extension)")
     
     # Mutually exclusive group for residue naming options
     residue_group = parser.add_mutually_exclusive_group(required=True)
@@ -140,15 +145,22 @@ def main():
     # Get color from choices dict
     color = color_choices.get(args.color.lower(), "#0333b0")  # Default to blue if not found
     
+    # Create output directory if needed
+    if args.output:
+        output_dir = os.path.dirname(args.output)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+    
     # Run analysis
     output_name = plot_area_per_lipid(
-        topology_file=args.gro,
         trajectory_file=args.xtc,
+        structure_file=args.gro,
         lipid21_resnames=args.lipid21_resnames if args.lipid21_resnames else [],
         standard_resname=args.standard_resname,
         title=args.title,
         color=color,
-        max_time=args.max_time
+        max_time=args.max_time,
+        output_prefix=args.output
     )
     
     print(f"Analysis complete. Results saved to {output_name}.png and {output_name}.txt")
