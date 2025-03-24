@@ -35,7 +35,6 @@ def main():
     print(f"Dihedral distribution analysis complete. Results saved in {args.out_dir}")
 
 def get_torsions(torsion_set):
-    """Get the torsion definitions based on the requested set"""
     
     phosphate_torsions = {
         'P1_O1_C2_H2': [15364, 15363, 15362, 15414], # Phosphate Torsions
