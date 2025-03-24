@@ -34,8 +34,9 @@ def main():
     if args.scripts_dir:
         scripts_dir = os.path.abspath(args.scripts_dir)
     else:
-        # Default to the directory where this script is located
-        scripts_dir = os.path.dirname(os.path.abspath(__file__))
+        # Default to ../scripts relative to this script's location
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        scripts_dir = os.path.abspath(os.path.join(current_dir, "..", "scripts"))
 
     # Create output directory if it doesn't exist
     output_dir = os.path.abspath(args.output_dir)
