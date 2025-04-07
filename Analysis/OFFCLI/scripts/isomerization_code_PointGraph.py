@@ -6,85 +6,79 @@ import MDAnalysis as mda
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description="Calculate sn-1 gauche isomerization from dihedral angle distributions")
-    parser.add_argument("--xvg_folder", help="Folder containing XVG files (default: uses predefined list)", default=None)
-    parser.add_argument("--xvg_folders", nargs='+', help="Multiple folders containing XVG files", default=None)
-    parser.add_argument("--output", help="Output file path for the plot (default: sn1_isomerization_comparison.png)", 
-                        default="sn1_isomerization_comparison.png")
-    parser.add_argument("--title", help="Plot title (default: sn-1 Gauche Isomerization)", 
-                        default="sn-1 Gauche Isomerization")
-    parser.add_argument("--positive_range", nargs=2, type=float, default=(30, 90),
-                        help="Positive angle range (default: 30 90)")
-    parser.add_argument("--negative_range", nargs=2, type=float, default=(-90, -30),
-                        help="Negative angle range (default: -90 -30)")
-    parser.add_argument("--color_scheme", nargs='+', default=['#0333b0', 'green', '#ee7f17'],
-                        help="Color scheme for plots (default: '#0333b0' 'green' '#ee7f17')")
-    parser.add_argument("--labels", nargs='+', default=None,
-                        help="Labels for each folder (default: folder names)")
-    
+    parser = argparse.ArgumentParser(description="Calculate gauche isomerization from sn-1 torsion distributions")
+    parser.add_argument("--xvg_dir", help="Path to XVG files", default=None)#debug, used >>>>>>>>>remove these duplicates
+    parser.add_argument("--xvg_dirs", nargs='+', help="Path to XVG files", default=None) #same as above
+    parser.add_argument("--output", help="Output for the plot (default: plot_outputs/sn1_isomerization_comparison.png)", default=None)#debug, still usable
+    parser.add_argument("--out_dir", help="Output directory", required=True) #again, effectively same as above. 
+    parser.add_argument("--title", help="Plot title (default: sn-1 Gauche Isomerization)", default="sn-1 Gauche Isomerization")
+    parser.add_argument("--positive_range", nargs=2, type=float, default=(30, 90),help="Default: 30 90")
+    parser.add_argument("--negative_range", nargs=2, type=float, default=(-90, -30), help="Default: -90 -30")
+    parser.add_argument("--color_scheme", nargs='+', default=['#0333b0', 'green', '#ee7f17'], help="Color scheme for plot (default: '#0333b0' 'green' '#ee7f17')")
+    parser.add_argument("--labels", nargs='+', default=None, help="Default: dir names")
     args = parser.parse_args()
     
-    # Set up folders with xvg files
-    if args.xvg_folders is not None:
-        xvg_folders = args.xvg_folders
-    elif args.xvg_folder is not None:
-        xvg_folders = [args.xvg_folder]
+    if args.output is None:
+        plot_outputs_dir = os.path.join(args.out_dir, "plot_outputs")
+        os.makedirs(plot_outputs_dir, exist_ok=True)
+        args.output = os.path.join(plot_outputs_dir, "sn1_isomerization_comparison.png")
+    
+    if args.xvg_dirs is not None:
+        xvg_dirs = args.xvg_dirs
+    elif args.xvg_dir is not None:
+        xvg_dirs = [args.xvg_dir]
     else:
-        # Use default folders if none provided
-        xvg_folders = ['xvg_files_OFF_HMR', 'xvg_files_macrog', 'xvg_files_slipids']
+        data_dir = os.path.join(args.out_dir, "data")
+        xvg_dirs = [
+            os.path.join(data_dir, "xvg_files_OFF_HMR"), # temp file name. tbu with l21/c36
+            os.path.join(data_dir, "xvg_files_macrog"), 
+            os.path.join(data_dir, "xvg_files_slipids")
+        ]
     
-    # Validate that folders exist
-    for folder in xvg_folders:
-        if not os.path.exists(folder):
-            print(f"Warning: XVG folder '{folder}' does not exist. Skipping.")
-            xvg_folders.remove(folder)
+    valid_dirs = []
+    for dir in xvg_dirs:
+        if os.path.exists(dir):
+            valid_dirs.append(dir)
+        else:
+            print(f"no xvg.")
     
-    if len(xvg_folders) == 0:
-        print("Error: No valid XVG folders found. Exiting.")
+    xvg_dirs = valid_dirs
+    
+    if len(xvg_dirs) == 0:
+        print("no xvg")
         return 1
     
-    # Set up labels
     labels = args.labels
     if labels is None:
-        # Use folder names as labels by default
-        labels = [os.path.basename(folder).replace('xvg_files_', '') for folder in xvg_folders]
-        # Ensure we have enough labels
-        if len(labels) < len(xvg_folders):
-            labels.extend([f"Dataset {i+1}" for i in range(len(labels), len(xvg_folders))])
+        labels = [os.path.basename(dir).replace('xvg_files_', '') for dir in xvg_dirs]
+        if len(labels) < len(xvg_dirs):
+            labels.extend([f"Dataset {i+1}" for i in range(len(labels), len(xvg_dirs))])
     
-    # Ensure we have enough colors
     colors = args.color_scheme
-    if len(colors) < len(xvg_folders):
-        # Add more colors if needed
-        default_colors = ['blue', 'green', 'red', 'purple', 'orange', 'brown', 'pink', 'gray', 'olive', 'cyan']
-        colors.extend([default_colors[i % len(default_colors)] for i in range(len(colors), len(xvg_folders))])
+    if len(colors) < len(xvg_dirs):
+        default_colors = ['blue', 'green', 'red', 'purple', 'orange', 'brown', 'pink'] # for tests
+        colors.extend([default_colors[i % len(default_colors)] for i in range(len(colors), len(xvg_dirs))])
     
-    # Set angle ranges
     positive_range = tuple(args.positive_range)
     negative_range = tuple(args.negative_range)
+    percentages_dict = {dir: [] for dir in xvg_dirs}
     
-    # Dictionary to store percentages for each folder
-    percentages_dict = {folder: [] for folder in xvg_folders}
-    
-    # Calculate probability percentages within ranges for each XVG folder
-    for folder in xvg_folders:
-        xvg_files = [os.path.join(folder, f) for f in sorted(os.listdir(folder)) if f.endswith('.xvg')]
-        print(f"Processing {len(xvg_files)} XVG files in {folder}")
+    for dir in xvg_dirs:
+        xvg_files = [os.path.join(dir, f) for f in sorted(os.listdir(dir)) if f.endswith('.xvg')]
+        # print(f" {len(xvg_files)} xvg files in {dir}")
         
         for xvg_file in xvg_files:
-            try:
-                combined_percent = calculate_percentage(xvg_file, positive_range, negative_range)
-                percentages_dict[folder].append(combined_percent)
-            except Exception as e:
-                print(f"Error processing {xvg_file}: {e}")
+            combined_percent = calculate_percentage(xvg_file, positive_range, negative_range)
+            percentages_dict[dir].append(combined_percent)
+            # except Exception as e: # dont really need try
+            #     print(f"{xvg_file}: {e}")
     
-    # Create plot
     fig, ax = plt.subplots(figsize=(10, 6))
     
-    for folder, color, label in zip(xvg_folders, colors, labels):
-        percentages = percentages_dict[folder]
+    for dir, color, label in zip(xvg_dirs, colors, labels):
+        percentages = percentages_dict[dir]
         if not percentages:
-            print(f"Warning: No valid data for {folder}, skipping in plot")
+            print(f"No data")
             continue
             
         x_labels = np.arange(1, len(percentages) + 1)
@@ -99,24 +93,21 @@ def main():
     ax.set_ylabel('% Isomerization')
     ax.set_title(args.title)
     ax.legend()
-    
-    # Set x-ticks based on the maximum number of bonds across all datasets
-    max_bonds = max([len(percentages_dict[folder]) for folder in xvg_folders])
+    max_bonds = max([len(percentages_dict[dir]) for dir in xvg_dirs]) # xticks=bonds
     ax.set_xticks(np.arange(1, max_bonds + 1))
-    
     fig.tight_layout()
-    
-    # Save the plot
     plt.savefig(args.output, dpi=300)
     print(f"Plot saved to {args.output}")
     
-    # Output the results into XVG file for each folder
-    for folder in xvg_folders:
-        percentages = percentages_dict[folder]
+    results_dir = os.path.join(args.out_dir, "results")
+    os.makedirs(results_dir, exist_ok=True)
+    
+    for dir in xvg_dirs:
+        percentages = percentages_dict[dir]
         if not percentages:
             continue
             
-        output_xvg = f'sn1_isomerization_{os.path.basename(folder)}.xvg'
+        output_xvg = os.path.join(results_dir, f'sn1_isomerization_{os.path.basename(dir)}.xvg')
         with open(output_xvg, 'w') as file:
             file.write('# Probability Percentages within Specified Angle Ranges\n')
             file.write(f'# Bond#  Combined({positive_range[0]} to {positive_range[1]} and {negative_range[0]} to {negative_range[1]})\n')
@@ -124,41 +115,29 @@ def main():
                 file.write(f"{i}  {combined_percent:.2f}\n")
         print(f"Results saved to {output_xvg}")
     
-    # Optionally display the plot
-    plt.show()
+    # plt.show()
     
     return 0
 
 def calculate_percentage(xvg_file, positive_range, negative_range):
-    """Calculate probability percentage within specified angle ranges from an XVG file"""
-    try:
-        aux = mda.auxiliary.XVG.XVGReader(xvg_file)
-        data = []
-        for step in aux:
-            step_data = step.data
-            if step_data.ndim == 1:
-                step_data = step_data.reshape(-1, 2)
-            data.extend(step_data)
-        
-        df = pd.DataFrame(data, columns=['A', 'B'])
-        
-        # Sum of probabilities within ranges
-        positive_prob = df[(df['A'] >= positive_range[0]) & (df['A'] <= positive_range[1])]['B'].sum()
-        negative_prob = df[(df['A'] >= negative_range[0]) & (df['A'] <= negative_range[1])]['B'].sum()
-        
-        # Calculate total probability to normalize
-        total_prob = df['B'].sum()
-        
-        # Sum
-        combined_prob = positive_prob + negative_prob
-        
-        # Convert sum to percentage
-        combined_percentage = (combined_prob / total_prob) * 100 if total_prob != 0 else 0
-        
-        return combined_percentage
-    except Exception as e:
-        print(f"Error processing file {xvg_file}: {e}")
-        raise
+    aux = mda.auxiliary.XVG.XVGReader(xvg_file)
+    data = []
+    for step in aux:
+        step_data = step.data
+        if step_data.ndim == 1:
+            step_data = step_data.reshape(-1, 2)
+        data.extend(step_data)
+    
+    df = pd.DataFrame(data, columns=['A', 'B'])
+    
+    positive_prob = df[(df['A'] >= positive_range[0]) & (df['A'] <= positive_range[1])]['B'].sum()
+    negative_prob = df[(df['A'] >= negative_range[0]) & (df['A'] <= negative_range[1])]['B'].sum()
+    
+    total_prob = df['B'].sum()
+    combined_prob = positive_prob + negative_prob
+    combined_percentage = (combined_prob / total_prob) * 100 if total_prob != 0 else 0
+    
+    return combined_percentage
 
 if __name__ == "__main__":
     exit_code = main()

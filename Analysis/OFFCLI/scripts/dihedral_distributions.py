@@ -4,40 +4,29 @@ import sys
 import subprocess
 
 def main():
-    parser = argparse.ArgumentParser(description="Calculate dihedral angle distributions from MD trajectories")
-    parser.add_argument("--xtc", help="Trajectory file (.xtc format)", required=True)
+    parser = argparse.ArgumentParser(description="Calculate dihedral angle distributions")
+    parser.add_argument("--xtc", help="Path to XTC file", required=True)
     parser.add_argument("--nlip", type=int, default=128, help="Number of lipids (default: 128)")
     parser.add_argument("--offset", type=int, default=134, help="Atom offset per lipid (default: 134 for POPC)")
-    parser.add_argument("--out_dir", default="xvg_files", help="Output directory for XVG files")
-    parser.add_argument("--idx_dir", default="index_files", help="Directory for index files")
-    parser.add_argument("--torsion_set", choices=["phosphate", "sn1_isomerization", "double_bond", "all"], 
-                        default="sn1_isomerization", help="Torsion set to analyze (default: sn1_isomerization)")
-    parser.add_argument("--xvg-suffix", default="_aux", help="Suffix to use for XVG output files (default: _aux)")
-    parser.add_argument("--dry-run", action="store_true", help="Print commands without executing them")
-    
+    parser.add_argument("--out_dir", default="xvg_files", help="Output directory for XVG files", required=True)
+    parser.add_argument("--idx_dir", default="index_files", help="Directory for index files", required=True)
+    parser.add_argument("--torsion_set", choices=["phosphate", "sn1_isomerization", "double_bond", "all"])
+    parser.add_argument("--xvg-suffix", default="_OFF", help="Suffix for XVG output files (default: _OFF)")
+    parser.add_argument("--dry-run", action="store_true") #debug
     args = parser.parse_args()
 
-    # Check if the trajectory file exists
-    if not os.path.exists(args.xtc):
-        print(f"Error: Trajectory file '{args.xtc}' does not exist")
-        sys.exit(1)
-
-    # Create output directories
     os.makedirs(args.idx_dir, exist_ok=True)
     os.makedirs(args.out_dir, exist_ok=True)
     
-    # Get torsion definitions based on the requested set
     torsions = get_torsions(args.torsion_set)
     
-    # Process the torsions
     process_torsions(torsions, args.nlip, args.offset, args.idx_dir, args.out_dir, args.xtc, args.xvg_suffix, args.dry_run)
-    
-    print(f"Dihedral distribution analysis complete. Results saved in {args.out_dir}")
+    print(f"Done, saved to {args.out_dir}")
 
 def get_torsions(torsion_set):
     
     phosphate_torsions = {
-        'P1_O1_C2_H2': [15364, 15363, 15362, 15414], # Phosphate Torsions
+        'P1_O1_C2_H2': [15364, 15363, 15362, 15414], # phosphate torsions
         'P1_O4_C3_H4': [15364, 15367, 15368, 15416],
         'C2_O1_P1_O4': [15362, 15363, 15364, 15367],
         'C2_O1_P1_O3': [15362, 15363, 15364, 15366],
@@ -49,7 +38,7 @@ def get_torsions(torsion_set):
     }
 
     sn1_isomerization = {
-        '27_28_29_30': [15397, 15398, 15399, 15400], # Sn-1 Isomerization Torsions
+        '27_28_29_30': [15397, 15398, 15399, 15400], # sn-1 isomerization torsions
         '28_29_30_31': [15398, 15399, 15400, 15401],
         '29_30_31_32': [15399, 15400, 15401, 15402],
         '30_31_32_33': [15400, 15401, 15402, 15403],
@@ -65,7 +54,7 @@ def get_torsions(torsion_set):
     }
     
     double_bond_torsions = {
-        'DB':       [15383, 15384, 15385, 15386], # Sn-2 Carbon Torsions (+adjacent compensatory torsions), Nitrogen Headgroup, and Glycerol Backbone
+        'DB':       [15383, 15384, 15385, 15386], # sn-2 carbon torsions (+adjacent compensatory torsions), nitrogen headgroup, and glycerol backbone
         'DB_HH':    [15443, 15384, 15385, 15444],
         'DB_HC':    [15443, 15384, 15385, 15386],
         '2-5_HH':   [15429, 15377, 15378, 15431],
@@ -92,15 +81,11 @@ def get_torsions(torsion_set):
         print(f"Unknown torsion set: {torsion_set}")
         sys.exit(1)
 
-def process_torsions(torsions, nlip, offset, idx_dir, out_dir, xtc_file, xvg_suffix="_aux", dry_run=False):
-    """Process each torsion by creating index files and running gmx angle"""
-    print(f"Processing {len(torsions)} dihedral angles with {nlip} lipids (offset: {offset})")
-    
-    successful = 0
+def process_torsions(torsions, nlip, offset, idx_dir, out_dir, xtc_file, xvg_suffix="_OFF", dry_run=False):
+    successful = 0 # debug, not necessary for read
     failed = 0
     
     for name, atoms in torsions.items():
-        # Create index files
         idx_file = os.path.join(idx_dir, f"{name}.ndx")
         label = "[ " + name + " ]"
 
@@ -110,15 +95,13 @@ def process_torsions(torsions, nlip, offset, idx_dir, out_dir, xtc_file, xvg_suf
                 print(f"{atoms[0] + offset * n:4d} {atoms[1] + offset * n:4d} "
                       f"{atoms[2] + offset * n:4d} {atoms[3] + offset * n:4d}", file=pfile)
 
-        # Run gmx angle
         xvg_file = os.path.join(out_dir, f"{name}{xvg_suffix}.xvg")
         gmx_command = f"gmx angle -f {xtc_file} -n {idx_file} -od {xvg_file} -type dihedral"
         
-        print(f"Running: {gmx_command}")
+        # print(f"Running: {gmx_command}")
         
         if not dry_run:
             try:
-                # Using subprocess for better error handling
                 result = subprocess.run(gmx_command, shell=True, check=False)
                 
                 if result.returncode == 0:
@@ -131,9 +114,9 @@ def process_torsions(torsions, nlip, offset, idx_dir, out_dir, xtc_file, xvg_suf
                 print(f"Error running command: {e}")
                 failed += 1
         else:
-            print("Dry run mode: command not executed")
+            print("debug ran")
     
-    print(f"Dihedral analysis completed: {successful} successful, {failed} failed")
+    # print(f"{successful} successful, {failed} failed")
 
 if __name__ == "__main__":
     main()
