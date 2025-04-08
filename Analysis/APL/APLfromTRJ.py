@@ -43,18 +43,13 @@ def plot_area_per_lipid(simulation_files, lipid_resname, custom_names):
         u = mda.Universe(topology_file, trajectory_file)
         
         apl_data = calculate_area_per_lipid(u, lipid_resname)
-
-        # arrays for plotting
         times = np.array(list(apl_data.keys()))
         area_per_lipid = np.array(list(apl_data.values()))
-
         average_apl = np.mean(area_per_lipid)
         std_apl = np.std(area_per_lipid)
 
-        # plot for data
         plt.plot(times, area_per_lipid, alpha=0.5, label=f"{custom_names[i]}: {average_apl:.2f} ± {std_apl:.2f} Å²")
         
-        # overlapping trendline for each
         window_size = 50  # testing idk
         trendline = np.convolve(area_per_lipid, np.ones(window_size)/window_size, mode='valid')
         plt.plot(times[:len(trendline)], trendline, alpha=1.0, color=plt.gca().lines[-1].get_color())
@@ -67,8 +62,7 @@ def plot_area_per_lipid(simulation_files, lipid_resname, custom_names):
     plt.savefig("50ns_rvdw_APL_trend", dpi=300)
     plt.show()
 
-    # save to file to check with NMR
-    with open('area_per_lipid_all.txt', 'w') as f:
+    with open('area_per_lipid_all.txt', 'w') as f: # save for manual plotting
         for topology_file, trajectory_file in simulation_files:
             u = mda.Universe(topology_file, trajectory_file)
             apl_data = calculate_area_per_lipid(u, lipid_resname)

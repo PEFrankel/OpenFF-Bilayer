@@ -30,28 +30,27 @@ def create_custom_matrix(torsions, forcefield, suffix, save_filename=None):
             ax = axes[i, j]
             
             if i > j:
-                # Scatter plot for bottom-left triangle
+                # Scatter plot for 'bottom-left' triangle
                 ax.scatter(df[torsion_j], df[torsion_i], alpha=0.6, s=4, color='#0333b0')  # Scatter plot color
                 if j == 0:
                     ax.set_ylabel(torsion_i, fontsize=6)
                 if i == len(torsions) - 1:
                     ax.set_xlabel(torsion_j, fontsize=6)
             elif i == j:
-                # Probability distribution plot on diagonal
+                # Probability distribution plot on 'diagonal'
                 angles = np.linspace(-180, 180, len(df[torsion_i]))
                 ax.plot(angles, df[torsion_i], linewidth=0.4, color='#0333b0')  # Line plot color
                 ax.set_xticks([-180, 0, 180])
                 ax.set_xlim([-180, 180])
                 ax.set_title(torsion_i, fontsize=8, pad=10)
             else:
-                # Correlation value on upper-right triangle
+                # Correlation value on 'upper-right' triangle
                 correlation_value = correlation_matrix.loc[torsion_i, torsion_j]
                 
-                # Set color based on correlation value
                 if correlation_value == 0:
-                    color = 'lightgrey'  # Grey for zero correlation
+                    color = 'lightgrey'
                 else:
-                    color = plt.cm.bwr((correlation_value + 1) / 2)  # Red to Blue gradient for other values
+                    color = plt.cm.bwr((correlation_value + 1) / 2)  # gradient for other values
                 
                 ax.patch.set_facecolor(color)
                 ax.text(0.5, 0.5, f"{correlation_value:.2f}",
@@ -80,7 +79,7 @@ def create_custom_matrix(torsions, forcefield, suffix, save_filename=None):
     
     plt.show()
 
-# Define torsions and call
+# torsions used
 torsions = ['P1_O4_C3_C4','P1_O4_C3_H5','P1_O4_C3_H4','C2_O1_P1_O4','C2_O1_P1_O3','C2_O1_P1_O2','P1_O1_C2_H2','P1_O1_C2_H3','C1_C2_O1_P1']
 forcefield = 'Open'
 suffix = '_OFF'

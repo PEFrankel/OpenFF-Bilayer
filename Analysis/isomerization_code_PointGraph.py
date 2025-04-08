@@ -4,19 +4,20 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import MDAnalysis as mda
 
+"""
+This script takes dihedral distribution XVGs and measures the frequency of gauche isomerization within the distribution.
+Dihedral distribution XVGs of the sn-1 chain for OpenFF POPC lipids (SMILES string specific) 
+can be obtained from "dihedral_distributions.py"
+"""
+
 # folders with avg files (assumes exact names)
 xvg_folders = ['xvg_files_OFF_HMR', 'xvg_files_macrog', 'xvg_files_slipids']
 
-# angle ranges
 positive_range = (30, 90)
 negative_range = (-90, -30)
-
-# dictionary to store percentages for each folder
 percentages_dict = {folder: [] for folder in xvg_folders}
 
-# calculate probability percentages within ranges
 def calculate_percentage(xvg_file):
-
     aux = mda.auxiliary.XVG.XVGReader(xvg_file)
     data = []
     for step in aux:
@@ -27,29 +28,21 @@ def calculate_percentage(xvg_file):
     
     df = pd.DataFrame(data, columns=['A', 'B'])
     
-    # sum of probabilities within ranges
     positive_prob = df[(df['A'] >= positive_range[0]) & (df['A'] <= positive_range[1])]['B'].sum()
     negative_prob = df[(df['A'] >= negative_range[0]) & (df['A'] <= negative_range[1])]['B'].sum()
     
-    # calculate total probability to normalize
     total_prob = df['B'].sum()
-    
-    # sum
     combined_prob = positive_prob + negative_prob
-    
-    # convert sum to percentage
     combined_percentage = (combined_prob / total_prob) * 100 if total_prob != 0 else 0
     
     return combined_percentage
 
-# loop over each XVG folder and calculate percentages
 for folder in xvg_folders:
     xvg_files = [os.path.join(folder, f) for f in sorted(os.listdir(folder)) if f.endswith('.xvg')]
     for xvg_file in xvg_files:
         combined_percent = calculate_percentage(xvg_file)
         percentages_dict[folder].append(combined_percent)
 
-# plot
 fig, ax = plt.subplots(figsize=(10, 6))
 
 colors = ['#0333b0', 'green', '#ee7f17']            # adjust as necessary
@@ -69,11 +62,10 @@ ax.legend()
 ax.set_xticks(np.arange(1, len(percentages_dict[xvg_folders[0]]) + 1))
 fig.tight_layout()
 
-plt.savefig('sn1_isomerization_comparison.png', dpi=300)         # IMAGE SAVE
+plt.savefig('sn1_isomerization_comparison.png', dpi=300)
 
 plt.show()
 
-# output the results into XVG file for each folder
 for folder in xvg_folders:
     output_xvg = f'sn1_isomerization_{folder}.xvg'
     with open(output_xvg, 'w') as file:

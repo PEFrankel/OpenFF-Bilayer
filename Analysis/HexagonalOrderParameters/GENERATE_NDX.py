@@ -4,10 +4,11 @@ gro_file_path = 'traj_1f.gro'
 output_file_path = 'ndxfile.txt'
 trajectory = md.load(gro_file_path)
 
+#OpenFF SMILES string specific
 chain_1_atoms = ['C8x', 'C9x', 'C10x', 'C11x', 'C12x', 'C13x', 'C14x', 'C15x', 
-                 'C16x', 'C17x', 'C18x', 'C19x', 'C20x', 'C21x', 'C22x', 'C23x', 'C24x', 'C25x'] # Example indices for the first chain
+                 'C16x', 'C17x', 'C18x', 'C19x', 'C20x', 'C21x', 'C22x', 'C23x', 'C24x', 'C25x'] # indices for the first chain
 chain_2_atoms = ['C27x', 'C28x', 'C29x', 'C30x', 'C31x', 'C32x', 'C33x', 'C34x', 
-                 'C35x', 'C36x', 'C37x', 'C38x', 'C39x', 'C40x', 'C41x', 'C42x'] # Example indices for the second chain
+                 'C35x', 'C36x', 'C37x', 'C38x', 'C39x', 'C40x', 'C41x', 'C42x'] # indices for the second chain
 
 header_values = [128, 2, 18, 16]
 

@@ -6,7 +6,7 @@ offset = 134
 #  change indices/torsion names here if needed
 torsions = {
     ## OpenFF (see original 2.2.0 SMILES string)
-    # 'P1_O1_C2_H2': [15364, 15363, 15362, 15414],
+    # 'P1_O1_C2_H2': [15364, 15363, 15362, 15414], # phosphate torsions
     # 'P1_O4_C3_H4': [15364, 15367, 15368, 15416],
     # 'C2_O1_P1_O4': [15362, 15363, 15364, 15367],
     # 'C2_O1_P1_O3': [15362, 15363, 15364, 15366],
@@ -16,7 +16,7 @@ torsions = {
     # 'P1_O4_C3_C4': [15364, 15367, 15368, 15369],
     # 'P1_O4_C3_H5': [15364, 15367, 15368, 15417],
     #
-    # 'DB':       [15383, 15384, 15385, 15386],
+    # 'DB':       [15383, 15384, 15385, 15386], # sn-2 carbon torsions (+adjacent compensatory torsions), nitrogen headgroup, and glycerol backbone
     # 'DB_HH':    [15443, 15384, 15385, 15444],
     # 'DB_HC':    [15443, 15384, 15385, 15386],
     # '2-5_HH':   [15429, 15377, 15378, 15431],
@@ -26,7 +26,7 @@ torsions = {
     # 'NHG':      [15370, 15369, 15368, 15367],
     # 'GB':       [15362, 15361, 15395, 15396],
     #
-    '27_28_29_30': [15397, 15398, 15399, 15400], # sn1 isomerization test
+    '27_28_29_30': [15397, 15398, 15399, 15400], # sn1 isomerization test (OpenFF SMILES string specific)
     '28_29_30_31': [15398, 15399, 15400, 15401],
     '29_30_31_32': [15399, 15400, 15401, 15402],
     '30_31_32_33': [15400, 15401, 15402, 15403],
@@ -93,7 +93,7 @@ for name, atoms in torsions.items():
         for n in range(nlip):
             print(f"{atoms[0] + offset * n:4d} {atoms[1] + offset * n:4d} {atoms[2] + offset * n:4d} {atoms[3] + offset * n:4d}", file=pfile)
 
-# Change suffix to relevant force field here
-    xvg_name = f"xvg_files/{name}_aux.xvg"
+# "_OFF" is the default xvg suffix I have here. Change if needed
+    xvg_name = f"xvg_files/{name}_OFF.xvg"
     gmx_command = f"gmx angle -f analysis.xtc -n {fname} -od {xvg_name} -type dihedral"
     os.system(gmx_command)

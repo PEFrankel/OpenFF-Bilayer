@@ -1,4 +1,5 @@
-# This simply reads your s6.xvg output and returns the average +/- of each column
+
+# WIP
 
 import numpy as np
 
@@ -31,7 +32,7 @@ def calculate_averages_and_sem(file_path):
 
     return (average_second_column, sem_second_column), (average_third_column, sem_third_column)
 
-file_path = "s6.xvg"  # Replace this with your file path
+file_path = "s6.xvg"
 
 (average_second_column, sem_second_column), (average_third_column, sem_third_column) = calculate_averages_and_sem(file_path)
 

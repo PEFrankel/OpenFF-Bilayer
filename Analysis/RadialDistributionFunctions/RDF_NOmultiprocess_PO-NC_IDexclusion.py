@@ -4,7 +4,6 @@ import MDAnalysis as mda
 import pandas as pd
 from collections import defaultdict 
 
-# organization
 index_folder = 'index_files'
 xvg_folder = 'xvg_files'
 
@@ -39,19 +38,15 @@ for i in range(5121, 5249):  # +1 to stop; stops one prior: / for each resid (12
 
     for step in aux:
         step_data = step.data
+
         if step_data.ndim == 1:
             step_data = step_data.reshape(-1, 2)
-
         for distance, density in step_data:
             density_dict[distance].append(density)
 
-# Calculate average densities for each distance
 avg_density_values = {distance: np.mean(densities) for distance, densities in density_dict.items()}
-
-# Build a dataframe with distance and averaged densities
 df = pd.DataFrame(list(avg_density_values.items()), columns=['A', 'B'])
 
-# Write the averaged RDF data to an XVG file (manually here...)
 with open('average_rdf_OFF.xvg', 'w') as f:
     f.write('@TYPE xy\n')
     f.write('@TITLE rdf plot\n')
