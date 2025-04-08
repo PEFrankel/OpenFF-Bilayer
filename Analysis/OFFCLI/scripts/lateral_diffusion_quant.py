@@ -49,12 +49,12 @@ def analyze_diffusion(xvg_file, window_size=10000, window_step=200, min_r2=0.99,
     plt.plot(fit_time, fit_msd, 'r--', label=f'Linear Fit (R² = {best_r2:.4f})')
     
     # time range annotations. can just comment these out if preferred
-    start_time = fit_time[0]
-    end_time = fit_time[-1]
-    plt.vlines(start_time, 0, slope * start_time + intercept, colors='r', linestyles='dashed', alpha=0.7)
-    plt.vlines(end_time, 0, slope * end_time + intercept, colors='r', linestyles='dashed', alpha=0.7)
-    plt.annotate(f'{start_time:.1f} ps', xy=(start_time, slope * start_time + intercept/2), xytext=(-15, -30), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='r', alpha=0.7))
-    plt.annotate(f'{end_time:.1f} ps', xy=(end_time, slope * end_time + intercept/2), xytext=(15, -30), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='r', alpha=0.7))
+    # start_time = fit_time[0]
+    # end_time = fit_time[-1]
+    # plt.vlines(start_time, 0, slope * start_time + intercept, colors='r', linestyles='dashed', alpha=0.7)
+    # plt.vlines(end_time, 0, slope * end_time + intercept, colors='r', linestyles='dashed', alpha=0.7)
+    # plt.annotate(f'{start_time:.1f} ps', xy=(start_time, slope * start_time + intercept/2), xytext=(-15, -30), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='r', alpha=0.7))
+    # plt.annotate(f'{end_time:.1f} ps', xy=(end_time, slope * end_time + intercept/2), xytext=(15, -30), textcoords='offset points', arrowprops=dict(arrowstyle='->', color='r', alpha=0.7))
     
     plt.xlabel('Time (ps)')
     plt.ylabel('MSD (nm²)')
