@@ -47,10 +47,18 @@ def main():
 
     def resolve_input_path(input_type, filename):
         return os.path.join(inputs_dir, input_type, filename) if filename else None
+    
+     # checks processed ver first
+    xtc_path = None
+    if args.xtc:
+        processed_xtc = os.path.join(outputs_dir, "process_output", "data", "analysis.xtc")# (need to rmv redundant data dir - artifact)
+        if os.path.exists(processed_xtc):
+            xtc_path = processed_xtc
+        else:
+            xtc_path = resolve_input_path("trajectories", os.path.basename(args.xtc))
 
     tpr_path = resolve_input_path("topologies", os.path.basename(args.tpr)) if args.tpr else None
-    xtc_path = resolve_input_path("trajectories", os.path.basename(args.xtc)) if args.xtc else None
-    gro_path = resolve_input_path("structures", os.path.basename(args.gro)) if args.gro else None
+    gro_path = resolve_input_path("structures", os.path.basename(args.gro)) if args.gro else None # the processed ver of this doesn't change data or save time
     
     xvg_path = None
     if args.xvg:

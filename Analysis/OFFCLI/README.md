@@ -1,4 +1,4 @@
-# OpenFF Lipid Bilayer Analysis Tool
+# Open Force Field Lipid Bilayer Analysis Tool
 
 A command-line interface for analyzing lipid bilayer molecular dynamics simulations. This tool provides a unified interface for various types of membrane analyses including dihedrals, angles, area per lipid, radial distribution functions, and isomerization behaviors.
 
