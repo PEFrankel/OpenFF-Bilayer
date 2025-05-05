@@ -20,6 +20,12 @@ The script calculates:
 
 Note: dihedral distribution XVGs of the sn-1 chain for POPC lipids (SMILES string specific for OpenFF) 
 can be obtained from "dihedral_distributions.py"
+
+Approach based on:
+- Lipid14: The Amber Lipid Force Field
+Dickson et al., 2014 (https://doi.org/10.1021/ct4010307)
+- Adjacent Gauche Stabilization in Linear Alkanes:  Implications for Polymer Models and Conformational Analysis
+Klauda et al., 2005 (https://doi.org/10.1021/jp0527608)
 """
 
 xvg_folders = ['xvg_files_OFF', 'xvg_files_charmm36', 'xvg_files_lipid21']
