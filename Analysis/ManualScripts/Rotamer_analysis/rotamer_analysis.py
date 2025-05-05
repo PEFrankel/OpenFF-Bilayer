@@ -18,7 +18,7 @@ The script calculates:
 - gtg' (kinks): g+tg- or g-tg+ sequences
 - ng: total number of gauche conformations
 
-Dihedral distribution XVGs of the sn-1 chain for POPC lipids (SMILES string specific for OpenFF) 
+Note: dihedral distribution XVGs of the sn-1 chain for POPC lipids (SMILES string specific for OpenFF) 
 can be obtained from "dihedral_distributions.py"
 """
 
