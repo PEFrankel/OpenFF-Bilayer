@@ -48,12 +48,34 @@ fig, ax = plt.subplots(figsize=(10, 6))
 colors = ['#0333b0', 'green', '#ee7f17']            # adjust as necessary
 labels = ['OpenFF', 'MacRog', 'Slipids']
 
+## Rectangles
+# for folder, color, label in zip(xvg_folders, colors, labels):
+#     percentages = percentages_dict[folder]
+#     x_labels = np.arange(1, len(percentages) + 1)
+#     mean_percentages = np.mean(percentages)
+#     se_percentages = np.std(percentages) / np.sqrt(len(percentages))
+    
+#     ax.errorbar(x_labels, percentages, yerr=se_percentages, fmt='none', 
+#                 ecolor=color, capsize=5)
+    
+#     for x, y in zip(x_labels, percentages):
+#         width = 0.8
+#         height = 0.7
+#         rect = plt.Rectangle((x - width/2, y - height/2), width, height, 
+#                            facecolor=color, edgecolor='none')
+#         ax.add_patch(rect)
+    
+#     ax.plot([], [], marker='s', ms=10, ls='', color=color, 
+#            label=f'{label} (Mean: {mean_percentages:.2f}%)')
+    
+## dots
 for folder, color, label in zip(xvg_folders, colors, labels):
     percentages = percentages_dict[folder]
     x_labels = np.arange(1, len(percentages) + 1)
     mean_percentages = np.mean(percentages)
     se_percentages = np.std(percentages) / np.sqrt(len(percentages))
-    ax.errorbar(x_labels, percentages, yerr=se_percentages, fmt='o', color=color, ecolor=color, capsize=5, label=f'{label} (Mean: {mean_percentages:.2f}%, SE: {se_percentages:.2f}%)')
+    ax.errorbar(x_labels, percentages, yerr=se_percentages, fmt='o', color=color, ecolor=color, capsize=5,
+                label=f'{label} (Mean: {mean_percentages:.2f}%, SE: {se_percentages:.2f}%)')
 
 ax.set_xlabel('Bond #')
 ax.set_ylabel('% Isomerization')
