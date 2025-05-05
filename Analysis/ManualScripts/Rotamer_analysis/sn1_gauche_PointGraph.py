@@ -11,7 +11,7 @@ can be obtained from "dihedral_distributions.py"
 """
 
 # folders with avg files (assumes exact names)
-xvg_folders = ['xvg_files_OFF_HMR', 'xvg_files_macrog', 'xvg_files_slipids']
+xvg_folders = ['xvg_files_OFF', 'xvg_files_charmm36', 'xvg_files_lipid21']
 
 positive_range = (30, 90)
 negative_range = (-90, -30)
@@ -46,7 +46,7 @@ for folder in xvg_folders:
 fig, ax = plt.subplots(figsize=(10, 6))
 
 colors = ['#0333b0', 'green', '#ee7f17']            # adjust as necessary
-labels = ['OpenFF', 'MacRog', 'Slipids']
+labels = ['OpenFF', 'CHARMM36', 'Lipid21']
 
 ## Rectangles
 # for folder, color, label in zip(xvg_folders, colors, labels):
@@ -77,9 +77,9 @@ for folder, color, label in zip(xvg_folders, colors, labels):
     ax.errorbar(x_labels, percentages, yerr=se_percentages, fmt='o', color=color, ecolor=color, capsize=5,
                 label=f'{label} (Mean: {mean_percentages:.2f}%, SE: {se_percentages:.2f}%)')
 
-ax.set_xlabel('Bond #')
-ax.set_ylabel('% Isomerization')
-ax.set_title('sn-1 Gauche Isomerization')
+ax.set_xlabel('Carbon bond #')
+ax.set_ylabel('% gauche configuration')
+ax.set_title('sn-1 gauche configuration')
 ax.legend()
 ax.set_xticks(np.arange(1, len(percentages_dict[xvg_folders[0]]) + 1))
 fig.tight_layout()
