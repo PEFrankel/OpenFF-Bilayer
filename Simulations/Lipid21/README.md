@@ -1,3 +1,6 @@
+## GROMACS-Converted Lipid21 systems
+- https://zenodo.org/records/14776136
+
 ## Workflow for generating Lipid21 systems for GROMACS
 
 1. Download a version of AMBER: https://ambermd.org/GetAmber.php
